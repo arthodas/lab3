@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require("express-session");
 //creating app
 const app = express();
 
@@ -12,7 +13,27 @@ app.get('/', (req, res) => {
 //route for contacts
 app.get('/contacts', (req, res) => {
     res.render('contacts');
-   });
+});
+
+// using JSON and URL Encoded middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
 
    //pass requests to the router middleware
 const router = require('C:/Users/artho/Documents/GitHub/lab3/routes/apis');
